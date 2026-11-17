@@ -26,20 +26,20 @@
   <div id="hud">
     <div id="brand">Empório dos Brindes · Transformando ideias em realidade</div>
     <div id="status">Aguardando a câmera…</div>
-    <div id="hint">Aponte para o Papai Noel ou para a logo EB da caneca.</div>
+    <div id="hint">Aponte para a estampa natalina da caneca.</div>
   </div>
   <div id="footer">Protótipo técnico de reconhecimento — animação definitiva do Papai Noel será integrada na próxima etapa.</div>
   <div id="start">
     <div class="panel">
       <h1>Uma surpresa de Natal!</h1>
-      <p>Este protótipo testa o reconhecimento de dois detalhes da estampa: o Papai Noel e a logo EB. Use a câmera do celular e aponte para um deles.</p>
+      <p>Aponte a câmera do celular para a estampa natalina da caneca e descubra a surpresa de Natal em realidade aumentada!</p>
       <button id="begin">Iniciar experiência</button>
       <p style="font-size:11px">É necessário permitir o acesso à câmera. A página precisa estar publicada em endereço HTTPS.</p>
     </div>
   </div>
 
   <a-scene
-    mindar-image="imageTargetSrc: ./assets/targets.mind; autoStart: false; uiLoading: no; uiError: no; uiScanning: no; maxTrack: 2; filterMinCF: 0.0001; filterBeta: 0.001"
+    mindar-image="imageTargetSrc: ./assets/targets_natal_novo.mind; autoStart: false; uiLoading: no; uiError: no; uiScanning: no; maxTrack: 2; filterMinCF: 0.0001; filterBeta: 0.001"
     color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights: true"
     vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
     <a-assets>
@@ -64,22 +64,7 @@
       </a-entity>
     </a-entity>
 
-    <!-- Alvo 1: logo EB. Dispara a mesma experiência visual. -->
-    <a-entity id="target-logo" mindar-image-target="targetIndex: 1">
-      <a-entity position="0 0 0.12">
-        <a-torus color="#f5cc62" radius="0.22" radius-tubular="0.012" position="0 0.30 0" material="metalness:0.65; roughness:0.25"
-          animation="property: rotation; to: 0 0 360; dur: 7000; easing: linear; loop: true"></a-torus>
-        <a-sphere color="#fff0bf" radius="0.045" position="-0.27 0.43 0.02" material="emissive:#f5cc62; emissiveIntensity:0.8"
-          animation="property: scale; to: 1.35 1.35 1.35; dur: 800; dir: alternate; loop: true"></a-sphere>
-        <a-sphere color="#fff0bf" radius="0.035" position="0.27 0.43 0.02" material="emissive:#f5cc62; emissiveIntensity:0.8"
-          animation="property: scale; to: 1.3 1.3 1.3; dur: 950; dir: alternate; loop: true"></a-sphere>
-        <a-plane width="1.02" height="0.32" position="0 0.02 0.03" material="color:#071a3b; opacity:0.92; transparent:true; metalness:0.25; roughness:0.35"></a-plane>
-        <a-text value="HO, HO, HO!" align="center" color="#f8d77b" width="1.8" position="0 0.10 0.05" font="https://cdn.aframe.io/fonts/Exo2Bold.fnt"></a-text>
-        <a-text value="FELIZ NATAL" align="center" color="#ffffff" width="1.5" position="0 -0.04 0.05"></a-text>
-        <a-text value="EMPÓRIO DOS BRINDES" align="center" color="#f8d77b" width="1.1" position="0 -0.15 0.05"></a-text>
-      </a-entity>
-    </a-entity>
-  </a-scene>
+      </a-scene>
 
   <script>
     const scene = document.querySelector('a-scene');
@@ -96,14 +81,12 @@
       active = Math.max(0, active - 1);
       if (!active) {
         status.textContent = 'Procurando a estampa…';
-        document.getElementById('hint').textContent = 'Aponte para o Papai Noel ou para a logo EB da caneca.';
+        document.getElementById('hint').textContent = 'Aponte para a estampa natalina da caneca.';
       }
     };
-    document.getElementById('target-santa').addEventListener('targetFound', () => setFound('Papai Noel'));
+    document.getElementById('target-santa').addEventListener('targetFound', () => setFound('Estampa natalina'));
     document.getElementById('target-santa').addEventListener('targetLost', setLost);
-    document.getElementById('target-logo').addEventListener('targetFound', () => setFound('logo EB'));
-    document.getElementById('target-logo').addEventListener('targetLost', setLost);
-    begin.addEventListener('click', async () => {
+        begin.addEventListener('click', async () => {
       start.style.display = 'none';
       status.textContent = 'Iniciando câmera…';
       try {
