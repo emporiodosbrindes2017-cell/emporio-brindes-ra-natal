@@ -45,24 +45,21 @@
     <a-assets>
       <a-mixin id="magic" animation__float="property: position; to: 0 0.48 0.16; dur: 1500; easing: easeInOutSine; dir: alternate; loop: true"
         animation__spin="property: rotation; to: 0 360 0; dur: 9000; easing: linear; loop: true"></a-mixin>
+      <video id="santaVideo" src="./assets/papai_noel_transparente_v2.webm" playsinline webkit-playsinline loop muted crossorigin="anonymous"></video>
     </a-assets>
     <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
     <!-- Alvo 0: Papai Noel. O conteúdo é um marcador visual provisório para validar o tracking. -->
     <a-entity id="target-santa" mindar-image-target="targetIndex: 0">
-      <a-entity position="0 0 0.12">
-        <a-torus color="#f5cc62" radius="0.22" radius-tubular="0.012" rotation="0 0 0" position="0 0.30 0" material="metalness:0.65; roughness:0.25"
-          animation="property: rotation; to: 0 0 360; dur: 7000; easing: linear; loop: true"></a-torus>
-        <a-sphere color="#fff0bf" radius="0.045" position="-0.27 0.43 0.02" material="emissive:#f5cc62; emissiveIntensity:0.8"
-          animation="property: scale; to: 1.35 1.35 1.35; dur: 800; dir: alternate; loop: true"></a-sphere>
-        <a-sphere color="#fff0bf" radius="0.035" position="0.27 0.43 0.02" material="emissive:#f5cc62; emissiveIntensity:0.8"
-          animation="property: scale; to: 1.3 1.3 1.3; dur: 950; dir: alternate; loop: true"></a-sphere>
-        <a-plane width="1.02" height="0.32" position="0 0.02 0.03" material="color:#071a3b; opacity:0.92; transparent:true; metalness:0.25; roughness:0.35"></a-plane>
-        <a-text value="HO, HO, HO!" align="center" color="#f8d77b" width="1.8" position="0 0.10 0.05" font="https://cdn.aframe.io/fonts/Exo2Bold.fnt"></a-text>
-        <a-text value="FELIZ NATAL" align="center" color="#ffffff" width="1.5" position="0 -0.04 0.05"></a-text>
-        <a-text value="EMPÓRIO DOS BRINDES" align="center" color="#f8d77b" width="1.1" position="0 -0.15 0.05"></a-text>
-      </a-entity>
-    </a-entity>
+    <a-video
+        src="#santaVideo"
+        width="0.90"
+        height="0.675"
+        position="0 0 0.02"
+        rotation="0 0 0"
+        material="shader: flat; transparent: true; side: double">
+    </a-video>
+</a-entity>
 
       </a-scene>
 
@@ -71,19 +68,23 @@
     const status = document.getElementById('status');
     const start = document.getElementById('start');
     const begin = document.getElementById('begin');
+    const santaVideo = document.getElementById('santaVideo');
     let active = 0;
     const setFound = (name) => {
       active++;
+      santaVideo.play().catch(() => {});
       status.textContent = 'Imagem reconhecida! Ho, ho, ho!';
       document.getElementById('hint').textContent = 'Reconhecimento: ' + name + '. Mantenha a caneca visível para acompanhar o efeito.';
     };
     const setLost = () => {
-      active = Math.max(0, active - 1);
-      if (!active) {
-        status.textContent = 'Procurando a estampa…';
+    active = Math.max(0, active - 1);
+    if (!active) {
+        santaVideo.pause();
+        santaVideo.currentTime = 0;
+        status.textContent = 'Procurando a estampa...';
         document.getElementById('hint').textContent = 'Aponte para a estampa natalina da caneca.';
-      }
-    };
+    }
+};
     document.getElementById('target-santa').addEventListener('targetFound', () => setFound('Estampa natalina'));
     document.getElementById('target-santa').addEventListener('targetLost', setLost);
         begin.addEventListener('click', async () => {
