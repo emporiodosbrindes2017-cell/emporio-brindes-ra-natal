@@ -6,6 +6,7 @@
   <title>Natal Empório dos Brindes — teste de realidade aumentada</title>
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+  <script src="https://unpkg.com/aframe-transparent-video-shader@1.0.6/dist/aframe-transparent-video-shader.umd.js"></script>
   <style>
     * { box-sizing: border-box; }
    html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: transparent; font-family: Arial, sans-serif; }
@@ -62,14 +63,12 @@
 
     <!-- Alvo 0: Papai Noel. O conteúdo é um marcador visual provisório para validar o tracking. -->
     <a-entity id="target-santa" mindar-image-target="targetIndex: 0">
-      <a-video
-        src="#santaVideo"
-        width="0.45"
-        height="0.3375"
-        position="-0.20 -0.03 0.02"
-        rotation="0 0 0"
-        material="shader: flat; transparent: true; side: double">
-    </a-video>
+      <a-entity
+  geometry="primitive: plane; width: 0.45; height: 0.3375"
+  material="shader: transparent-video; src: #santaVideo; side: double"
+  position="-0.20 -0.03 0.02"
+  rotation="0 0 0">
+</a-entity>
 </a-entity>
       </a-scene>
   <script>
